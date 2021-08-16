@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Api BB Documentation",
+        "description": "SC Api BB Documentation",
         "version": "1.0",
         "title": "Api Documentation",
         "termsOfService": "urn:tos",
