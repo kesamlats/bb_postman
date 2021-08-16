@@ -1,0 +1,3583 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api Documentation",
+        "version": "1.0",
+        "title": "Api Documentation",
+        "termsOfService": "urn:tos",
+        "contact": {
+            "name": "Contact Email"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/scancentral-ctrl",
+    "tags": [
+        {
+            "name": "core-controller",
+            "description": "Core Controller"
+        },
+        {
+            "name": "admin-console-controller",
+            "description": "Admin Console Controller"
+        }
+    ],
+    "paths": {
+        "/rest/job": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "uploadFile",
+                "operationId": "uploadFileUsingPOST",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "zipFile",
+                        "in": "formData",
+                        "description": "file",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "username",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "emailAddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaVersion",
+                        "in": "query",
+                        "description": "scaVersion",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaRuntimeArgs",
+                        "in": "query",
+                        "description": "scaArgsString",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pvId",
+                        "in": "query",
+                        "description": "pvId",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "projectName",
+                        "in": "query",
+                        "description": "projectName",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "projectVersion",
+                        "in": "query",
+                        "description": "projectVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "uploadToken",
+                        "in": "query",
+                        "description": "uploadToken",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "oneTimeJobToken",
+                        "in": "query",
+                        "description": "otjToken",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "buildId",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "poolUuid",
+                        "in": "query",
+                        "description": "poolUuid",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobType",
+                        "in": "query",
+                        "description": "jobType",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "SCAN_JOB",
+                            "TRANSLATION_AND_SCAN_JOB",
+                            "REPORT_JOB",
+                            "UNDEFINED_JOB"
+                        ]
+                    },
+                    {
+                        "name": "dotNetRequired",
+                        "in": "query",
+                        "description": "dotNetRequired",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "dotNetFrameworkRequiredVersion",
+                        "in": "query",
+                        "description": "dotNetFrameworkRequiredVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clientVersion",
+                        "in": "query",
+                        "description": "clientVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scanTimeout",
+                        "in": "query",
+                        "description": "scanTimeout",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/job/{token}": {
+            "delete": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "cancel",
+                "operationId": "cancelUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/rest/job/{token}/status": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getStatus",
+                "operationId": "getStatusUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/job/{token}/{fileType}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "downloadFile",
+                "operationId": "downloadFileUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fileType",
+                        "in": "path",
+                        "description": "fileType",
+                        "required": true,
+                        "type": "string",
+                        "enum": [
+                            "FPR",
+                            "LOG",
+                            "UNDEFINED"
+                        ]
+                    },
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/ping": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "ping",
+                "operationId": "pingUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/ssc/lockdown": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "isSscLockdownMode",
+                "operationId": "isSscLockdownModeUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/ssc/url": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getSscUrl",
+                "operationId": "getSscUrlUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/update/check/{clientVersion}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "checkForUpdates",
+                "operationId": "checkForUpdatesUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "clientVersion",
+                        "in": "path",
+                        "description": "clientVersion",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/update/checksum": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getClientZipChecksumOldImpl",
+                "operationId": "getClientZipChecksumOldImplUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/update/download": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "downloadClientZip",
+                "operationId": "downloadClientZipUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/job": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "uploadFile",
+                "operationId": "uploadFileUsingPOST_1",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "zipFile",
+                        "in": "formData",
+                        "description": "file",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "username",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "emailAddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaVersion",
+                        "in": "query",
+                        "description": "scaVersion",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaRuntimeArgs",
+                        "in": "query",
+                        "description": "scaArgsString",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pvId",
+                        "in": "query",
+                        "description": "pvId",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "projectName",
+                        "in": "query",
+                        "description": "projectName",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "projectVersion",
+                        "in": "query",
+                        "description": "projectVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "uploadToken",
+                        "in": "query",
+                        "description": "uploadToken",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "oneTimeJobToken",
+                        "in": "query",
+                        "description": "otjToken",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "buildId",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "poolUuid",
+                        "in": "query",
+                        "description": "poolUuid",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jobType",
+                        "in": "query",
+                        "description": "jobType",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "SCAN_JOB",
+                            "TRANSLATION_AND_SCAN_JOB",
+                            "REPORT_JOB",
+                            "UNDEFINED_JOB"
+                        ]
+                    },
+                    {
+                        "name": "dotNetRequired",
+                        "in": "query",
+                        "description": "dotNetRequired",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "dotNetFrameworkRequiredVersion",
+                        "in": "query",
+                        "description": "dotNetFrameworkRequiredVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clientVersion",
+                        "in": "query",
+                        "description": "clientVersion",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scanTimeout",
+                        "in": "query",
+                        "description": "scanTimeout",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/job/{token}": {
+            "delete": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "cancel",
+                "operationId": "cancelUsingDELETE_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/rest/v2/job/{token}/status": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getStatus",
+                "operationId": "getStatusUsingGET_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/job/{token}/{fileType}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "downloadFile",
+                "operationId": "downloadFileUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fileType",
+                        "in": "path",
+                        "description": "fileType",
+                        "required": true,
+                        "type": "string",
+                        "enum": [
+                            "FPR",
+                            "LOG",
+                            "UNDEFINED"
+                        ]
+                    },
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/ping": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "ping",
+                "operationId": "pingUsingGET_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/ssc/lockdown": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "isSscLockdownModeV2",
+                "operationId": "isSscLockdownModeV2UsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/ssc/url": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getSscUrl",
+                "operationId": "getSscUrlUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/update/check/{clientVersion}/{isStandaloneCli}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "checkForUpdatesV2",
+                "operationId": "checkForUpdatesV2UsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "clientVersion",
+                        "in": "path",
+                        "description": "clientVersion",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "isStandaloneCli",
+                        "in": "path",
+                        "description": "isStandaloneCli",
+                        "required": true,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/update/checksum": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "getClientZipChecksumV2",
+                "operationId": "getClientZipChecksumV2UsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/update/download": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "downloadClientZip",
+                "operationId": "downloadClientZipUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/hello": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_hello",
+                "operationId": "worker_helloUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "wcb",
+                        "description": "wcb",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/WorkerCapabilityBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/job": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_job",
+                "operationId": "worker_update_jobUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "buildId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaRuntimeArgs",
+                        "in": "query",
+                        "description": "scanArgs",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/pool/{uuid}": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "assignWorkerToPool",
+                "operationId": "assignWorkerToPoolUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/StringResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/progress/{token}": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_sca_progress",
+                "operationId": "worker_update_sca_progressUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "scaProgressBean",
+                        "description": "scaProgressBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ScaProgressBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/request": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_workrequest",
+                "operationId": "worker_workrequestUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "wcb",
+                        "description": "wcb",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WorkerCapabilityBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/request/{token}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_workartifact",
+                "operationId": "worker_workartifactUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/result": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_result_upload",
+                "operationId": "worker_result_uploadUsingPOST",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fileType",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "resultFile",
+                        "in": "formData",
+                        "description": "resultFile",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/shutdown": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_shutdown",
+                "operationId": "worker_shutdownUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "wcb",
+                        "description": "wcb",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/WorkerCapabilityBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/v2/worker/status/{token}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_get_status",
+                "operationId": "worker_get_statusUsingGET_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_status",
+                "operationId": "worker_update_statusUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "jobState",
+                        "description": "jobState",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/hello": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_hello",
+                "operationId": "worker_helloUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "wcb",
+                        "description": "wcb",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/WorkerCapabilityBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/job": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_job",
+                "operationId": "worker_update_jobUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "buildId",
+                        "in": "query",
+                        "description": "buildId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "scaRuntimeArgs",
+                        "in": "query",
+                        "description": "scanArgs",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/progress/{token}": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_sca_progress",
+                "operationId": "worker_update_sca_progressUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "scaProgressBean",
+                        "description": "scaProgressBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ScaProgressBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/request": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_workrequest",
+                "operationId": "worker_workrequestUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "wcb",
+                        "description": "wcb",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WorkerCapabilityBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/request/{token}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_workartifact",
+                "operationId": "worker_workartifactUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "outputStream",
+                        "description": "outputStream",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/OutputStream"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/result": {
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_result_upload",
+                "operationId": "worker_result_uploadUsingPOST_3",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fileType",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "resultFile",
+                        "in": "formData",
+                        "description": "resultFile",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/rest/worker/v1/status/{token}": {
+            "get": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_get_status",
+                "operationId": "worker_get_statusUsingGET_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "core-controller"
+                ],
+                "summary": "worker_update_status",
+                "operationId": "worker_update_statusUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "jobState",
+                        "description": "jobState",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/jobs": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getJobs",
+                "operationId": "getJobsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfJobBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/pools": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getPools",
+                "operationId": "getPoolsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfPoolBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addPool",
+                "operationId": "addPoolUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "poolBean",
+                        "description": "poolBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/pools/unassignedWorkers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getUnassignedWorkers",
+                "operationId": "getUnassignedWorkersUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addUnassignedWorkers",
+                "operationId": "addUnassignedWorkersUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/pools/{uuid}": {
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "updatePool",
+                "operationId": "updatePoolUsingPUT_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "poolBean",
+                        "description": "poolBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "deletePool",
+                "operationId": "deletePoolUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/sscadmin/pools/{uuid}/workers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getPoolWorkers",
+                "operationId": "getPoolWorkersUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addPoolWorkers",
+                "operationId": "addPoolWorkersUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "setPoolWorkers",
+                "operationId": "setPoolWorkersUsingPUT_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/systemmetrics": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getSystemMetrics",
+                "operationId": "getSystemMetricsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemMetricBean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/systemsettings": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getSystemSettings",
+                "operationId": "getSystemSettingsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemSettingsBean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sscadmin/workers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getWorkers",
+                "operationId": "getWorkersUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfWorkerBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/jobs": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getJobs",
+                "operationId": "getJobsUsingGET_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfJobBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/maintenance": {
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "enableMaintenanceMode",
+                "operationId": "enableMaintenanceModeUsingPUT_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/BooleanRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BooleanResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/pools": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getPools",
+                "operationId": "getPoolsUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfPoolBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addPool",
+                "operationId": "addPoolUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "poolBean",
+                        "description": "poolBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/pools/unassignedWorkers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getUnassignedWorkers",
+                "operationId": "getUnassignedWorkersUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addUnassignedWorkers",
+                "operationId": "addUnassignedWorkersUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/pools/{uuid}": {
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "updatePool",
+                "operationId": "updatePoolUsingPUT_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "poolBean",
+                        "description": "poolBean",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolBean"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "deletePool",
+                "operationId": "deletePoolUsingDELETE_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/pools/{uuid}/workers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getPoolWorkers",
+                "operationId": "getPoolWorkersUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "addPoolWorkers",
+                "operationId": "addPoolWorkersUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "setPoolWorkers",
+                "operationId": "setPoolWorkersUsingPUT_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "uuid",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/systemmetrics": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getSystemMetrics",
+                "operationId": "getSystemMetricsUsingGET_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemMetricBean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/systemsettings": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getSystemSettings",
+                "operationId": "getSystemSettingsUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SystemSettingsBean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/workers": {
+            "get": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "getWorkers",
+                "operationId": "getWorkersUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "changedSince",
+                        "in": "query",
+                        "description": "changedSince",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ListOfWorkerBeans"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/v2/sscadmin/workers/shutdown": {
+            "put": {
+                "tags": [
+                    "admin-console-controller"
+                ],
+                "summary": "shutdownWorkers",
+                "operationId": "shutdownWorkersUsingPUT_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "workerUuids",
+                        "description": "workerUuids",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ListOfUuids"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BooleanResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "PoolBean": {
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "lastChangedOn": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "ScaDataBean": {
+            "properties": {
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "scaVersion": {
+                    "type": "string"
+                }
+            }
+        },
+        "WorkerCapabilityBean": {
+            "properties": {
+                "availableProcessors": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "dotNetFrameworkVersion": {
+                    "type": "string",
+                    "enum": [
+                        "DOT_NET_4_6_1",
+                        "DOT_NET_4_6_2",
+                        "DOT_NET_4_7",
+                        "DOT_NET_4_7_1",
+                        "DOT_NET_4_7_2",
+                        "DOT_NET_4_8"
+                    ]
+                },
+                "hostName": {
+                    "type": "string"
+                },
+                "osArchitecture": {
+                    "type": "string"
+                },
+                "osName": {
+                    "type": "string"
+                },
+                "osVersion": {
+                    "type": "string"
+                },
+                "scaVersion": {
+                    "type": "string"
+                },
+                "sensorVersion": {
+                    "type": "string"
+                },
+                "startTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "totalPhysicalMemory": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "vmName": {
+                    "type": "string"
+                }
+            }
+        },
+        "ListOfUuids": {
+            "properties": {
+                "uuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "StringResponse": {
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "BooleanResponse": {
+            "properties": {
+                "booleanValue": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "WorkerBean": {
+            "properties": {
+                "expiryTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "ipAddress": {
+                    "type": "string"
+                },
+                "lastActivity": {
+                    "type": "string"
+                },
+                "lastChangedOn": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "lastSeen": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "poolUuid": {
+                    "type": "string"
+                },
+                "processUuid": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "NEW",
+                        "ACTIVE",
+                        "STALE",
+                        "INACTIVE",
+                        "SHUTDOWN_SCHEDULED",
+                        "SHUTTING_DOWN"
+                    ]
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "workerCapabilityBean": {
+                    "$ref": "#/definitions/WorkerCapabilityBean"
+                }
+            }
+        },
+        "ListOfPoolBeans": {
+            "properties": {
+                "beans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PoolBean"
+                    }
+                }
+            }
+        },
+        "ListOfWorkerBeans": {
+            "properties": {
+                "workerBeans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/WorkerBean"
+                    }
+                }
+            }
+        },
+        "Response": {},
+        "SscDataBean": {
+            "properties": {
+                "projectName": {
+                    "type": "string"
+                },
+                "projectVersion": {
+                    "type": "string"
+                },
+                "pvId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "UNKNOWN",
+                        "PENDING",
+                        "QUEUED",
+                        "RUNNING",
+                        "CANCELING",
+                        "CANCELED",
+                        "COMPLETED",
+                        "FAILED",
+                        "FAULTED",
+                        "TIMEOUT"
+                    ]
+                },
+                "stateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "SystemSettingsBean": {
+            "properties": {
+                "cleanupPeriodSeconds": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "fromAddress": {
+                    "type": "string"
+                },
+                "jobExpiryDelaySeconds": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "maxUploadSize": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "poolMappingMode": {
+                    "type": "string",
+                    "enum": [
+                        "DISABLED",
+                        "ENABLED",
+                        "ENFORCED"
+                    ]
+                },
+                "smtpHost": {
+                    "type": "string"
+                },
+                "smtpPort": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "sscLockdownMode": {
+                    "type": "boolean"
+                },
+                "sscUrl": {
+                    "type": "string"
+                },
+                "systemState": {
+                    "type": "string",
+                    "enum": [
+                        "ACTIVE",
+                        "WAITING_FOR_JOB_COMPLETED",
+                        "MAINTENANCE"
+                    ]
+                },
+                "systemUrl": {
+                    "type": "string"
+                },
+                "systemVersion": {
+                    "type": "string"
+                },
+                "workerExpiryDelaySeconds": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "workerInactiveDelaySeconds": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "workerStaleDelaySeconds": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "ListOfJobBeans": {
+            "properties": {
+                "jobBeans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/JobBean"
+                    }
+                }
+            }
+        },
+        "SystemMetricBean": {
+            "properties": {
+                "diskFreeKb": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "diskUsedKb": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "startTime": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "uptime": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "JobBean": {
+            "properties": {
+                "buildId": {
+                    "type": "string"
+                },
+                "completedTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expiryTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "hasFpr": {
+                    "type": "boolean"
+                },
+                "hasLog": {
+                    "type": "boolean"
+                },
+                "ipAddress": {
+                    "type": "string"
+                },
+                "jobType": {
+                    "type": "string",
+                    "enum": [
+                        "SCAN_JOB",
+                        "TRANSLATION_AND_SCAN_JOB",
+                        "REPORT_JOB",
+                        "UNDEFINED_JOB"
+                    ]
+                },
+                "lastChangedOn": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "onDisk": {
+                    "type": "boolean"
+                },
+                "poolUuid": {
+                    "type": "string"
+                },
+                "queuedTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "requiredDotNetFrameworkVersion": {
+                    "type": "string"
+                },
+                "scaData": {
+                    "$ref": "#/definitions/ScaDataBean"
+                },
+                "sscData": {
+                    "$ref": "#/definitions/SscDataBean"
+                },
+                "startedTime": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "UNKNOWN",
+                        "PENDING",
+                        "QUEUED",
+                        "RUNNING",
+                        "CANCELING",
+                        "CANCELED",
+                        "COMPLETED",
+                        "FAILED",
+                        "FAULTED",
+                        "TIMEOUT"
+                    ]
+                },
+                "token": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "workerProcessUuid": {
+                    "type": "string"
+                },
+                "workerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "BooleanRequest": {
+            "properties": {
+                "booleanValue": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ScaProgressBean": {
+            "properties": {
+                "analysisHasStarted": {
+                    "type": "boolean"
+                },
+                "currentPhaseCode": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "currentPhaseIsVariableLength": {
+                    "type": "boolean"
+                },
+                "currentPhaseMessage": {
+                    "type": "string"
+                },
+                "currentPhaseUnits": {
+                    "type": "string"
+                },
+                "elapsedTime": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "estimatedTimeRemaining": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "itemsCompletedInCurrentPhase": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "itemsRemainingInCurrentPhase": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "percentCompleted": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "sourceFileCount": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "sourceFunctionCount": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "totalItemsInCurrentPhase": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    }
+}
